@@ -1,0 +1,27 @@
+{
+   "system": {
+      "log.level": "DEBUG",
+      "log.max-file-size" : 10,
+      "log.max-file-backups" : 4,
+      "cli.bind-port": 61912,
+      "cli.login-id": "1",
+      "cli.login-pw": "6b86b273ff34fce19d6b804eff5a3f5747ada4EAA22f1d49c01e52ddb7875b4b"
+   },
+   "resource": {
+      "rp.pool-size": 20000
+   },
+   "interface": {
+      "http.bind-tcp-port": 0,
+      "http.bind-tls-port": 0,
+      "http-server-certificate": "",
+      "http-server-cert-key": ""
+   },
+   "timer": {
+      "session.inactivity.timeout": 120000,
+      "http.response.timeout": 5000
+   },
+   "service": {
+      "load-generation-plan": "API1 1",
+      "api1-url": "http://127.0.0.1:8080/check"
+   }
+}
