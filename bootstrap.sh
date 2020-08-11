@@ -67,6 +67,8 @@ echo "COMM_INC=-std=c++11 -W -Wall -Wextra -I${LIB_DIR} -D_POSIX_PTHREAD_SEMANTI
 # submodule update
 # ------------------------------------------------------------------------------
 if [[ x${DISABLE_DEPENDENCY} == x ]]; then
+   cp ${HOME_DIR}
+   cp -f rlwrap-0.43.tar.gz ${LIB_DIR}
    cd ${LIB_DIR}
    tar -xvzf rlwrap-0.43.tar.gz
    cd rlwrap-0.43 && ./configure && make -j 8

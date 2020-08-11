@@ -48,6 +48,6 @@ find ./${LOWER_APP_NAME} -name "main.cpp" -exec sed -i "s/template/${LOWER_APP_N
 sed -i "s/template\//${LOWER_APP_NAME}\//g" configure.ac
 sed -i "s/template/${LOWER_APP_NAME}/g" Makefile.am
 sed -i "s/template/${LOWER_APP_NAME}/g" .gitignore
-cp bin/config.template.cfg bin/config.${LOWER_APP_NAME}.cfg
+cp bin/config.template.json bin/config.${LOWER_APP_NAME}.json
 cp bin/cli.template.sh bin/cli.${LOWER_APP_NAME}.sh
 cp bin/ctl.template.sh bin/ctl.${LOWER_APP_NAME}.sh
