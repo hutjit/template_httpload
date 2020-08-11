@@ -402,9 +402,8 @@ std::string Cli::Banner()
          "  - %s\n"
          "\n"
          "  +-------------------------------------------+\n"
-         "  |  XDRGEN                                   |\n"
-         "  |    - version : %-26s |\n"
-         "  |    - date    : %-26s |\n"
+         "  | - version : %-29s |\n"
+         "  | - date    : %-29s |\n"
          "  +-------------------------------------------+\n"
          "\n"
          , OpenSSL_version(OPENSSL_VERSION)

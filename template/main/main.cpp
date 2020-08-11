@@ -142,8 +142,6 @@ int main(int argc, char **argv)
       version_print.Csnprintf(2048,
             "\n\n"
             "#=====================================================#\n"
-            "#  XDRGEN                                             #\n"
-            "#-----------------------------------------------------#\n"
             "#  - version    : %-35s #\n"
             "#  - created    : %-35s #\n"
             "#  - repository : %-35s #\n"
