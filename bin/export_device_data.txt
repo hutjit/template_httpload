@@ -1,0 +1,7 @@
+df['dt_send_time'] = pd.to_datetime(df['send_time'])
+df['keytime'] = df['dt_send_time'].dt.strftime('%H:%M:%S')
+features_considered = ['keytime','device_id', 'type', 'type','send_time','rail_temp','air_temp']
+df = df[features_considered]
+df.head()
+
+df.to_csv('/tf/notebooks/test.csv',index = False)

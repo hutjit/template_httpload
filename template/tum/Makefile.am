@@ -11,7 +11,6 @@ libtemplate_tum_a_SOURCES = \
 		fsm.cpp \
 		fsm_idle.cpp \
 		fsm_api_1.cpp \
-		fsm_replay_xdr.cpp \
 		manager.cpp
 
 DEFS = $(XIDEBUG)

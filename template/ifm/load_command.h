@@ -1,5 +1,7 @@
-#ifndef _IFM_LOAD_COMMAND_H_
-#define _IFM_LOAD_COMMAND_H_
+// vim:ts=3:sts=3:sw=3
+
+#ifndef TEMPLATE_IFM_LOAD_COMMAND_H_
+#define TEMPLATE_IFM_LOAD_COMMAND_H_
 
 #include <string>
 #include <set>

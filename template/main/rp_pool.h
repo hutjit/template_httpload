@@ -1,7 +1,7 @@
 // vim:ts=3:sts=3:sw=3
 
-#ifndef _MAIN_RESOURCE_POOL_H_
-#define _MAIN_RESOURCE_POOL_H_
+#ifndef TEMPLATE_MAIN_RESOURCE_POOL_H_
+#define TEMPLATE_MAIN_RESOURCE_POOL_H_
 
 #include "xi/singleton.hxx"
 #include "rp/pool.hxx"

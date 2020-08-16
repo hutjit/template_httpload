@@ -1,3 +1,5 @@
+// vim:ts=3:sts=3:sw=3
+
 #include "define.h"
 
 namespace tu
@@ -13,7 +15,6 @@ namespace fsmtype
          "(none)",
          "IDLE",
          "API_1",
-         "REPLAY_XDR",
       };
 
       if (END_OF_ENUM > (unsigned)type)

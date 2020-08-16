@@ -1,5 +1,7 @@
-#ifndef _IFM_HTTP1_PROTOCOL_H_
-#define _IFM_HTTP1_PROTOCOL_H_
+// vim:ts=3:sts=3:sw=3
+
+#ifndef TEMPLATE_IFM_HTTP1_PROTOCOL_H_
+#define TEMPLATE_IFM_HTTP1_PROTOCOL_H_
 
 #include "rp/payload.hxx"
 #include "stack/http1/request.hxx"

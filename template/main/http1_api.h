@@ -1,7 +1,7 @@
 // vim:ts=3:sts=3:sw=3
 
-#ifndef _MAIN_HTTP1API_H_
-#define _MAIN_HTTP1API_H_ 
+#ifndef TEMPLATE_MAIN_HTTP1API_H_
+#define TEMPLATE_MAIN_HTTP1API_H_ 
 
 #include "rp/payload.hxx"
 #include "stack/http1/api.hxx"

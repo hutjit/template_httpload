@@ -22,6 +22,8 @@
    },
    "service": {
       "load-generation-plan": "API1 1",
-      "api1-url": "http://127.0.0.1:8080/check"
+      "scenario-files": [
+         { "name": "API1", "file" : "api1_scenario.xml" }
+      ]
    }
 }

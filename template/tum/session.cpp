@@ -1,3 +1,5 @@
+// vim:ts=3:sts=3:sw=3
+
 #include "session.h"
 #include <memory>
 #include "xi/input_string_cursor.hxx"
@@ -10,7 +12,6 @@
 #include "manager.h"
 #include "fsm_idle.h"
 #include "fsm_api_1.h"
-#include "fsm_replay_xdr.h"
 
 namespace tu {
 
@@ -117,10 +118,6 @@ void Session::ChangeFsm(const char *ltag, tu::fsmtype::e type)
 
       case tu::fsmtype::API_1:
          fsm_object_ = tu::FsmApi1::Instance();
-         break;
-
-      case tu::fsmtype::REPLAY_XDR:
-         fsm_object_ = tu::FsmReplayXdr::Instance();
          break;
 
       default :

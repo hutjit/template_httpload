@@ -1,5 +1,7 @@
-#ifndef _MAIN_LOAD_GENERATOR_H_
-#define _MAIN_LOAD_GENERATOR_H_
+// vim:ts=3:sts=3:sw=3
+
+#ifndef TEMPLATE_MAIN_LOAD_GENERATOR_H_
+#define TEMPLATE_MAIN_LOAD_GENERATOR_H_
 
 #include <stdint.h>
 #include <list>

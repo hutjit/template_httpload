@@ -1,7 +1,7 @@
 // vim:ts=3:sts=3:sw=3
 
-#ifndef _MAIN_DEFINE_H_
-#define _MAIN_DEFINE_H_
+#ifndef TEMPLATE_MAIN_DEFINE_H_
+#define TEMPLATE_MAIN_DEFINE_H_
 
 #include <stdint.h>
 
@@ -57,7 +57,6 @@ namespace test {
       typedef enum {
          NONE = 0,
          API1,
-         REPLAY_XDR,
          END_OF_ENUM
       } e;
 

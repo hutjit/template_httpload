@@ -69,6 +69,9 @@ echo "COMM_INC=-std=c++11 -W -Wall -Wextra -I${LIB_DIR} -D_POSIX_PTHREAD_SEMANTI
 if [[ x${DISABLE_DEPENDENCY} == x ]]; then
    git submodule init
    git submodule update
+   # last version
+   # - https://stackoverflow.com/questions/5828324/update-git-submodule-to-latest-commit-on-origin
+   #git submodule foreach git pull origin master
 
    cp ${HOME_DIR}
    cp -f rlwrap-0.43.tar.gz ${LIB_DIR}

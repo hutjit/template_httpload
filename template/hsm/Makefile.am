@@ -6,10 +6,12 @@ include ../../buildenv.am
 
 lib_LIBRARIES = libtemplate_hsm.a
 libtemplate_hsm_a_SOURCES = \
-		replay_xdrs.cpp
+		http_detail_records.cpp \
+		libxml2_util.cpp \
+		manager.cpp
 
 DEFS = $(XIDEBUG)
-AM_CPPFLAGS = $(COMM_INC)
+AM_CPPFLAGS = $(COMM_INC) -I/usr/include/libxml2
 
 LIBTOOL_DEPS = @LIBTOOL_DEPS@
 libtool: $(LIBTOOL_DEPS)

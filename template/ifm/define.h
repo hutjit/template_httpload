@@ -1,5 +1,7 @@
-#ifndef _IFM_DEFINE_H_
-#define _IFM_DEFINE_H_
+// vim:ts=3:sts=3:sw=3
+
+#ifndef TEMPLATE_IFM_DEFINE_H_
+#define TEMPLATE_IFM_DEFINE_H_
 
 namespace ifm { // interface-message
 

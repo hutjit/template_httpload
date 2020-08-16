@@ -1,7 +1,7 @@
 // vim:ts=3:sts=3:sw=3
 
-#ifndef _MAIN_STATISTICS_H_
-#define _MAIN_STATISTICS_H_
+#ifndef TEMPLATE_MAIN_STATISTICS_H_
+#define TEMPLATE_MAIN_STATISTICS_H_
 
 #include <tbb/atomic.h>
 #include "xi/singleton.hxx"

@@ -1,5 +1,7 @@
-#ifndef _TUM_DEFINE_H_
-#define _TUM_DEFINE_H_
+// vim:ts=3:sts=3:sw=3
+
+#ifndef TEMPLATE_TUM_DEFINE_H_
+#define TEMPLATE_TUM_DEFINE_H_
 
 
 namespace tu {
@@ -9,7 +11,6 @@ namespace fsmtype {
       NONE = 0,
       IDLE,
       API_1,
-      REPLAY_XDR,
       END_OF_ENUM
    } e;
 

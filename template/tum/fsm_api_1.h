@@ -1,5 +1,7 @@
-#ifndef _TUM_FSM_API_1_H_
-#define _TUM_FSM_API_1_H_
+// vim:ts=3:sts=3:sw=3
+
+#ifndef TEMPLATE_TUM_FSM_API_1_H_
+#define TEMPLATE_TUM_FSM_API_1_H_
 
 #include "xi/singleton.hxx"
 #include "template/tum/fsm.h"

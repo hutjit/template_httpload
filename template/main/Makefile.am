@@ -21,7 +21,7 @@ template_SOURCES = \
                                                           
 template_LDADD = $(COMM_LD) \
 		-ltemplate_tum -ltemplate_ifm -ltemplate_hsm \
-		-lxihttp1 -lxirp -lxiwebsocket -lxi \
+		-lxihttp1 -lxirp -lxiwebsocket -lxi -lxml2 \
 		$(SYSLIBS)
 
 AM_CPPFLAGS = $(COMM_INC)

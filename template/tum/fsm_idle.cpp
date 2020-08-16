@@ -1,3 +1,5 @@
+// vim:ts=3:sts=3:sw=3
+
 #include "fsm_idle.h"
 
 #include "rapidjson/document.h"
@@ -40,10 +42,6 @@ xi::rp::result::e FsmIdle::ProcessLoadCommand(tu::Session &context, ifm::LoadCom
    {
       case test::scenario::API1 :
          fsm = tu::fsmtype::API_1;
-         break;
-
-      case test::scenario::REPLAY_XDR :
-         fsm = tu::fsmtype::REPLAY_XDR;
          break;
 
       default :

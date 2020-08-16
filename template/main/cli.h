@@ -1,7 +1,7 @@
 // vim:ts=3:sts=3:sw=3
 
-#ifndef _MAIN_CLI_H_
-#define _MAIN_CLI_H_ 
+#ifndef TEMPLATE_MAIN_CLI_H_
+#define TEMPLATE_MAIN_CLI_H_ 
  
 #include "xi/cli.hxx"
 #include "xi/singleton.hxx"

@@ -108,7 +108,6 @@ namespace test {
       {
          "(none)",
          "API1",
-         "REPLAY_XDR",
       };
 
       const char *name(e type)

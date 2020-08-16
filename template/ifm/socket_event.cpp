@@ -1,3 +1,5 @@
+// vim:ts=3:sts=3:sw=3
+
 #include "socket_event.h"
 
 namespace ifm {

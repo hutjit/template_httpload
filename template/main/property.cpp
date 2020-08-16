@@ -15,6 +15,7 @@
 #include "xi/input_string_cursor.hxx"
 #include "revision.h"
 #include "interface_hub.h"
+#include "template/hsm/manager.h"
 
 namespace ih {
 
@@ -144,7 +145,7 @@ bool Property::Load_system(rapidjson::Document &doc)
       SetLogLevel(xi::loglevel::code(found->value.GetString()));
    }
    {
-      key = "log.max-file-archive";
+      key = "log.max-file-backups";
       rapidjson::Value::MemberIterator found = section->value.FindMember(key.c_str());
       if ((found != section->value.MemberEnd()) && found->value.IsNumber()) {
          SetLogFileLimit((unsigned int)found->value.GetInt());
@@ -331,10 +332,29 @@ bool Property::Load_service(rapidjson::Document &doc)
    }
 
    {
-      key = "api1-url";
+      key = "scenario-files";
       rapidjson::Value::MemberIterator found = section->value.FindMember(key.c_str());
-      if ((found != section->value.MemberEnd()) && found->value.IsString()) {
-         test_api1_url_ = found->value.GetString();
+      if ((found != section->value.MemberEnd()) && found->value.IsArray()) {
+         for (rapidjson::SizeType i = 0; i < found->value.Size(); ++i) {
+            xi::String name;
+            xi::String value;
+            const rapidjson::Value &item = found->value[i];
+            auto itname = item.FindMember("name");
+            if (itname->value.IsString())
+               name = itname->value.GetString();
+            auto itvalue = item.FindMember("file");
+            if (itvalue->value.IsString())
+               value = itvalue->value.GetString();
+            name.Trim();
+            value.Trim();
+            if (name.IsEmpty() || value.IsEmpty()) {
+               WLOG(FN << "invalid config[" << key << "] name:" << name << " file:" << value);
+            } else {
+               scenario_files_[name.c_str()] = value.c_str();
+               if (false == hs::Manager::Instance()->Load(name.c_str(), value.c_str()))
+                  return false;
+            }
+         }
       }
    }
 
@@ -521,11 +541,6 @@ std::string Property::ToStringLoadScenario()
    return retval;
 }
 
-const char *Property::GetApi1Url() const
-{
-   return test_api1_url_.c_str();
-}
-
 void Property::ResetTestFlag()
 {
    for (int i = 0; i < test::flag::toggle::END_OF_ENUM; ++i)
@@ -709,7 +724,7 @@ void Property::Print()
    EOUT("  CLI login                   : " << cli_id_ << "/" << cli_pw_);
    EOUT("  log.level                   : " << xi::loglevel::name(GetLogLevel()));
    EOUT("  log.max-file-size           : " << GetLogFileSize());
-   EOUT("  log.max-file-archive        : " << GetLogFileLimit());
+   EOUT("  log.max-file-backups        : " << GetLogFileLimit());
    EOUT("---------------------------------------------------");
 
    EOUT("[resource]");
@@ -758,7 +773,10 @@ void Property::Print()
 
    EOUT("[service]");
    EOUT("  load-generation-plan        : " << ToStringLoadScenario());
-   EOUT("  api1-url                    : " << GetApi1Url());
+   EOUT("  scenario-files");
+   for (auto &p : scenario_files_) {
+      EOUT("    - " << p.first << " : " << p.second << "\n" << hs::Manager::Instance()->Summary(p.first.c_str(), 44));
+   }
    EOUT("---------------------------------------------------");
 }
 

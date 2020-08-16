@@ -1,7 +1,7 @@
 // vim:ts=3:sts=3:sw=3
 
-#ifndef _MAIN_RP_TIMER_H_
-#define _MAIN_RP_TIMER_H_ 
+#ifndef TEMPLATE_MAIN_RP_TIMER_H_
+#define TEMPLATE_MAIN_RP_TIMER_H_ 
 
 #include "rp/timer.hxx"
 #include "rp/payload.hxx"

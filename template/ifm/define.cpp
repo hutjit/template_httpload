@@ -1,3 +1,5 @@
+// vim:ts=3:sts=3:sw=3
+
 #include "define.h"
 #include "xi/util.hxx"
 

@@ -1,7 +1,7 @@
 // vim:ts=3:sts=3:sw=3
 
-#ifndef _MAIN_PROPERTY_H_
-#define _MAIN_PROPERTY_H_ 
+#ifndef TEMPLATE_MAIN_PROPERTY_H_
+#define TEMPLATE_MAIN_PROPERTY_H_ 
 
 #include <list>
 #include <map>
@@ -64,7 +64,6 @@ class Property : public xi::Singleton<Property>
       void                    SetLoadScenario(std::list<test::Load> &list);
       std::list<test::Load>   ParseLoadScenario(xi::String &cmd_line);
       std::string             ToStringLoadScenario();
-      const char             *GetApi1Url() const;
 
       void                    ResetTestFlag();
       bool                    GetTestFlag(test::flag::toggle::e name) const;
@@ -114,7 +113,7 @@ class Property : public xi::Singleton<Property>
       uint32_t                timer_value_[td::timer::END_OF_ENUM];
 
       // service section -------------------------------------------------------
-      xi::String              test_api1_url_;
+      std::map<std::string, std::string> scenario_files_;
 
       // test section ----------------------------------------------------------
       std::list<test::Load>   load_scenario_list_;

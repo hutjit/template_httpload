@@ -1,5 +1,7 @@
-#ifndef _IFM_TIMER_EVENT_H_
-#define _IFM_TIMER_EVENT_H_
+// vim:ts=3:sts=3:sw=3
+
+#ifndef TEMPLATE_IFM_TIMER_EVENT_H_
+#define TEMPLATE_IFM_TIMER_EVENT_H_
 
 #include "rp/payload.hxx"
 #include "template/ifm/define.h"

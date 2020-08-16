@@ -1,7 +1,7 @@
 // vim:ts=3:sts=3:sw=3
 
-#ifndef _TUM_MANAGER_H_
-#define _TUM_MANAGER_H_
+#ifndef TEMPLATE_TUM_MANAGER_H_
+#define TEMPLATE_TUM_MANAGER_H_
 
 #include "xi/singleton.hxx"
 #include "rp/payload.hxx"

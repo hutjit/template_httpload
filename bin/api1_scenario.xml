@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scenario>
+   <request>
+      <scheme>http</scheme>
+      <header>
+         <!-- Host 정로보 Remote에 접속 -->
+         <![CDATA[
+POST /iot/v1/sensing HTTP/1.1
+Host: 127.0.0.1:9000
+Content-Type: application/json
+            ]]>
+      </header>
+      <content>
+         <![CDATA[
+{
+  "device_id" : "${C01}",
+  "linc_seqno" : ${C02},
+  "msg_version" : "1.0",
+  "seq_no" : ${C03},
+  "send_time" : "${C04}",
+  "battery_level" : 3.25,
+  "status_code" : 65,
+  "sid1" : 65,
+  "sid1_status" : 0,
+  "sid1_value" : ${C06},
+  "sid2" : 66,
+  "sid2_status" : 0,
+  "sid2_value" : ${C07},
+  "sid3" : 67,
+  "sid3_status" : 0,
+  "sid3_value" : 0.0
+}
+            ]]>
+      </content>
+   </request>
+   <injection>
+      <delimiter>,</delimiter>
+      <file>api1_injection.csv</file>
+   </injection>
+</scenario>

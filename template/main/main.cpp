@@ -12,7 +12,6 @@
 #include "rp_pool.h"
 #include "statistics.h"
 #include "revision.h"
-#include "template/hsm/replay_xdrs.h"
 
 
 extern char *program_invocation_short_name;
@@ -141,11 +140,11 @@ int main(int argc, char **argv)
       xi::String version_print;
       version_print.Csnprintf(2048,
             "\n\n"
-            "#=====================================================#\n"
+            "#######################################################\n"
             "#  - version    : %-35s #\n"
             "#  - created    : %-35s #\n"
             "#  - repository : %-35s #\n"
-            "#=====================================================#\n"
+            "#######################################################\n"
             "\n"
             "  - %s\n"
             "\n"
@@ -200,16 +199,6 @@ int main(int argc, char **argv)
       _EXIT(1);
    }
 
-
-   // ===========================================================================
-   // 4. xdr scenario load
-   // ---------------------------------------------------------------------------
- 
-   if (false == hs::ReplayXdrs::Instance()->Load()) {
-      WLOG("ReplayXdrs::Load() fail");
-      _EXIT(1);
-   }
-   //hs::ReplayXdrs::Instance()->Print();
 
 
    xi::CreatePidFile(g_pidfile_path);

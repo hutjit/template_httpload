@@ -1,7 +1,10 @@
+// vim:ts=3:sts=3:sw=3
+
 #include "fsm_api_1.h"
 
 #include "xi/logger.hxx"
 #include "xi/util.hxx"
+#include "template/hsm/manager.h"
 #include "template/main/property.h"
 #include "template/main/statistics.h"
 
@@ -111,19 +114,23 @@ xi::rp::result::e FsmApi1::SendRequest(tu::Session &context)
 {
    const char *fn = "[tu::api1::SendRequest] ";
 
-   char payload[1024];
-   for (unsigned idx = 0; idx < sizeof(payload); ++idx)
-      payload[idx] = '1';
-   payload[sizeof(payload)-1] = '\0';
-   char payload_len[32];
-   snprintf(payload_len, sizeof(payload_len), "%lu", strlen(payload));
+   xi::String scheme;
+   xi::String req;
+   xi::String content;
 
-   std::unique_ptr<xi::h1::Request> request(new xi::h1::Request(ih::Property::Instance()->GetApi1Url(), xi::h1::method::POST));
-   request->AddHeader("Echo", context.trace_tag_.c_log());
-   request->AddHeader("Connection", "close");
-   request->AddHeader("Content-Type", "text/plain");
+   if (false == hs::Manager::Instance()->Next(test::scenario::name(context.test_scenario_), scheme, req, content)) {
+      return xi::rp::result::DO_RELEASE;
+   }
+
+
+   char payload_len[32];
+   snprintf(payload_len, sizeof(payload_len), "%u", content.GetSize());
+
+   std::unique_ptr<xi::h1::Request> request(new xi::h1::Request(req.c_str(), req.GetSize(), scheme.c_str()));
    request->AddHeader("Content-Length", payload_len);
-   request->SetPayload((const uint8_t*)payload, strlen(payload));
+
+   if (false == content.IsEmpty())
+      request->SetPayload((const uint8_t*)content.c_str(), content.GetSize());
 
    ifm::Http1Protocol proto;
    proto.PushRequest(std::move(request));

@@ -1,5 +1,7 @@
-#ifndef _TUM_SESSION_H_
-#define _TUM_SESSION_H_
+// vim:ts=3:sts=3:sw=3
+
+#ifndef TEMPLATE_TUM_SESSION_H_
+#define TEMPLATE_TUM_SESSION_H_
 
 #include "xi/define.hxx"
 #include "rp/member.hxx"
@@ -17,7 +19,6 @@ class Session : public xi::rp::Member
 {
    friend class FsmIdle;
    friend class FsmApi1;
-   friend class FsmReplayXdr;
 
    public :
       Session();

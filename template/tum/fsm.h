@@ -1,5 +1,7 @@
-#ifndef _TUM_FSM_H_
-#define _TUM_FSM_H_
+// vim:ts=3:sts=3:sw=3
+
+#ifndef TEMPLATE_TUM_FSM_H_
+#define TEMPLATE_TUM_FSM_H_
 
 #include <string>
 #include "stack/http1/request.hxx"

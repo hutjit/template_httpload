@@ -1,3 +1,5 @@
+// vim:ts=3:sts=3:sw=3
+
 #include "http1_api.h"
 #include "xi/logger.hxx"
 #include "xi/util.hxx"
