@@ -105,6 +105,8 @@ void Http1Api::OnReceive(std::unique_ptr<xi::h1::Response> response)
 
 void Http1Api::OnSendFail(std::unique_ptr<xi::h1::Request> request)
 {
+   static const char *FN = "[Http1Api::OnSendFail] ";
+   WLOG(FN << request->ToString());
 }
 
 bool Http1Api::Send(xi::rp::Payload &message)

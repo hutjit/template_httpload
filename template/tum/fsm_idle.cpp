@@ -73,7 +73,7 @@ xi::rp::result::e FsmIdle::ProcessHttpRequest(tu::Session &context, xi::h1::Requ
 
 bool FsmIdle::SendFinalResponse(IN tu::Session &context, IN xi::h1::Request &request, IN uint16_t status_code)
 {
-   static const char *fn = "[tu::idle::SendFinalResponse] ";
+   //static const char *fn = "[tu::idle::SendFinalResponse] ";
 
    const char *echo_value = request.GetHeaderValue("Echo");
    const char *connection_header_value = request.GetHeaderValue("Connection");
