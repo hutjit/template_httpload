@@ -108,6 +108,7 @@ namespace test {
       {
          "(none)",
          "API1",
+         "API2",
       };
 
       const char *name(e type)

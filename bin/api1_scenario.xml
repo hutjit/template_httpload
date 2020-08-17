@@ -35,6 +35,7 @@ Content-Type: application/json
    </request>
    <injection>
       <delimiter>,</delimiter>
-      <file>api1_injection.csv</file>
+      <key-column>C04</key-column>
+      <file>api1_ingestion.csv</file>
    </injection>
 </scenario>

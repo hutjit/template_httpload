@@ -11,6 +11,7 @@ namespace fsmtype {
       NONE = 0,
       IDLE,
       API_1,
+      API_2,
       END_OF_ENUM
    } e;
 
@@ -18,6 +19,19 @@ namespace fsmtype {
 }
 
 namespace api01step {
+   typedef enum {
+      NONE = 0,
+      S1_SEND_REQUEST,
+      S2_WAIT_REPLY,
+      COMPLETE,
+      END_OF_ENUM
+   } e;
+   const char *name(e value);
+   bool        scope(e value);
+   e           next(e value);
+}
+
+namespace api02step {
    typedef enum {
       NONE = 0,
       S1_SEND_REQUEST,

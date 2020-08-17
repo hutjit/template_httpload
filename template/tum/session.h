@@ -19,6 +19,7 @@ class Session : public xi::rp::Member
 {
    friend class FsmIdle;
    friend class FsmApi1;
+   friend class FsmApi2;
 
    public :
       Session();

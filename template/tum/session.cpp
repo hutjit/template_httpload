@@ -12,6 +12,7 @@
 #include "manager.h"
 #include "fsm_idle.h"
 #include "fsm_api_1.h"
+#include "fsm_api_2.h"
 
 namespace tu {
 
@@ -118,6 +119,10 @@ void Session::ChangeFsm(const char *ltag, tu::fsmtype::e type)
 
       case tu::fsmtype::API_1:
          fsm_object_ = tu::FsmApi1::Instance();
+         break;
+
+      case tu::fsmtype::API_2:
+         fsm_object_ = tu::FsmApi2::Instance();
          break;
 
       default :

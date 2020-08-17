@@ -66,6 +66,11 @@ std::string HttpDetailRecords::Summary(const uint32_t left_margin) const
    }
 
    {
+      std::vector<std::string> row{"key-column", key_column_.c_log()};
+      table.AppendBody(row);
+   }
+
+   {
       xi::String header;
       for (auto it : header_) {
          if (header.IsEmpty()) {
@@ -85,6 +90,12 @@ std::string HttpDetailRecords::Summary(const uint32_t left_margin) const
       table.AppendBody(row);
    }
 
+   if (false == key_column_.IsEmpty()) {
+      xi::String rows; rows = key2idx_.size();
+      std::vector<std::string> row{"key-table", rows.c_log()};
+      table.AppendBody(row);
+   }
+
    return table.Print();
 }
 
@@ -94,29 +105,25 @@ bool HttpDetailRecords::Next(OUT xi::String &scheme, OUT xi::String &httpreq, OU
 
    xi::RwLock::ScopedLockRead lock(lock_);
 
-   scheme = http_scheme_;
+   Compose(seq, scheme, httpreq, content);
 
-   // Replace에서 메모리 할당 호출을 줄이기 위해 미리 메모리를 충분히 할당함
-   httpreq.Resize(1024);
-   if (false == http_content_.IsEmpty())
-      content.Resize(4096);
+   return (httpreq.IsEmpty() ? false : true);
+}
 
-   httpreq = http_request_;
-   content = http_content_;
+bool HttpDetailRecords::Get(IN const char *loadkey, OUT xi::String &scheme, OUT xi::String &httpreq, OUT xi::String &content)
+{
+   const char *FN = "[HDR::Get] ";
 
-   char varname[128];
-   unsigned index = 0;
-   for (auto it = header_.begin(); it != header_.end(); ++it, ++index) {
-      if (it->empty())
-         continue;
+   xi::RwLock::ScopedLockRead lock(lock_);
 
-      xi::Splitter split(value_rows_[seq].c_str(), inject_delimiter_);
-      snprintf(varname, sizeof(varname), "${%s}", it->c_str());
+   auto it = key2idx_.find(loadkey);
 
-      httpreq.Replace(varname, split[index]);
-      if (false == content.IsEmpty())
-         content.Replace(varname, split[index]);
+   if (it == key2idx_.end()) {
+      DLOG(FN << "not-found key:" << loadkey);
+      return false;
    }
+
+   Compose(it->second, scheme, httpreq, content);
 
    return (httpreq.IsEmpty() ? false : true);
 }
@@ -204,6 +211,7 @@ bool HttpDetailRecords::LoadScenario(const char *file)
          found = Libxml2Util::Instance()->GetCDATANode(found);
          if (found) {
             http_content_ = (char *) found->content;
+            http_content_.Trim();
          }
       }
 
@@ -242,6 +250,17 @@ bool HttpDetailRecords::LoadScenario(const char *file)
             WLOG(FN << "invalid " << node_name);
             parse_status = false;
             break;
+         }
+      }
+
+      // <key-column>
+      {
+         xi::String node_name = "key-column";
+         xmlNode *found = Libxml2Util::Instance()->FindNextNode(xmlnode->children, node_name.c_str());
+         found = (found ? Libxml2Util::Instance()->GetTextNode(found) : NULL);
+         if (found) {
+            key_column_ = (const char *) found->content;
+            key_column_.Trim();
          }
       }
 
@@ -287,9 +306,10 @@ bool HttpDetailRecords::LoadIngection(const char *file)
    bool parse_status = true;
    uint32_t column_size = 0;
    unsigned int index = 0;
+   uint32_t key_column_idx = UINT32_MAX;
+   uint32_t value_index = 0;
 
    char line[4096] = {0, };
-   char conv[4096] = {0, };
    while (fgets(line, sizeof(line), fp)) {
       ++index;
       if (xi::IsZero(line))
@@ -302,9 +322,13 @@ bool HttpDetailRecords::LoadIngection(const char *file)
             if (xi::IsZero(split[i])) {
                header_.push_back("");
             } else {
+               char conv[128];
                snprintf(conv, sizeof(conv), "%s", split[i]);
                xi::TrimBlank(conv);
                header_.push_back(conv);
+
+               if (key_column_.IsEqual(conv))
+                  key_column_idx = i;
             }
          }
 
@@ -323,6 +347,15 @@ bool HttpDetailRecords::LoadIngection(const char *file)
          }
          xi::TrimBlank(line);
          value_rows_.push_back(line);
+         ++value_index;
+
+         if (UINT32_MAX > key_column_idx) {
+            char tmp[256];
+            snprintf(tmp, sizeof(tmp), "%s", split[key_column_idx]);
+            xi::TrimBlank(tmp);
+            if (false == xi::IsZero(tmp))
+               key2idx_.insert(std::make_pair<std::string, uint32_t>(tmp, value_index-1));
+         }
       }
    }
    value_size_ = value_rows_.size();
@@ -340,6 +373,34 @@ uint32_t HttpDetailRecords::NextSeq()
    uint32_t next = (load_seq_++) % value_size_;
    return next;
 }
+
+void HttpDetailRecords::Compose(const uint32_t rowid, OUT xi::String &scheme, OUT xi::String &httpreq, OUT xi::String &content) const
+{
+   scheme = http_scheme_;
+
+   // Replace에서 메모리 할당 호출을 줄이기 위해 미리 메모리를 충분히 할당함
+   httpreq.Resize(1024);
+   if (false == http_content_.IsEmpty())
+      content.Resize(4096);
+
+   httpreq = http_request_;
+   content = http_content_;
+
+   char varname[128];
+   unsigned index = 0;
+   for (auto it = header_.begin(); it != header_.end(); ++it, ++index) {
+      if (it->empty())
+         continue;
+
+      xi::Splitter split(value_rows_[rowid].c_str(), inject_delimiter_);
+      snprintf(varname, sizeof(varname), "${%s}", it->c_str());
+
+      httpreq.Replace(varname, split[index]);
+      if (false == content.IsEmpty())
+         content.Replace(varname, split[index]);
+   }
+}
+
 
 
 }

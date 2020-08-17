@@ -21,7 +21,8 @@ class Manager : public xi::Singleton<Manager>
 
       bool Load(const char *apiname, const char *file);
       std::string Summary(const char *apiname, const uint32_t left_margin) const;
-      bool Next(IN const char *apiname,  OUT xi::String &scheme, OUT xi::String &httpreq, OUT xi::String &content);
+      bool Get(IN const char *apiname, OUT xi::String &scheme, OUT xi::String &httpreq, OUT xi::String &content);
+      bool Get(IN const char *apiname, IN const char *loadkey, OUT xi::String &scheme, OUT xi::String &httpreq, OUT xi::String &content);
 
    private :
       xi::RwLock lock_;

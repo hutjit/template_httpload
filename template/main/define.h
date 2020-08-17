@@ -57,6 +57,7 @@ namespace test {
       typedef enum {
          NONE = 0,
          API1,
+         API2,
          END_OF_ENUM
       } e;
 

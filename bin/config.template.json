@@ -23,7 +23,8 @@
    "service": {
       "load-generation-plan": "API1 1",
       "scenario-files": [
-         { "name": "API1", "file" : "api1_scenario.xml" }
+         { "name": "API1", "file" : "api1_scenario.xml", "desc": "API1 - 지정된 TPS로 csv row 순차 전송" },
+         { "name": "API2", "file" : "api1_scenario.xml", "desc": "API2 - key column 으로 지정된 시간에 csv row 전송" }
       ]
    }
 }

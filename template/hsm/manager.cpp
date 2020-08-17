@@ -48,9 +48,9 @@ std::string Manager::Summary(const char *apiname, const uint32_t left_margin) co
    return empty;
 }
 
-bool Manager::Next(IN const char *apiname,  OUT xi::String &scheme, OUT xi::String &httpreq, OUT xi::String &content)
+bool Manager::Get(IN const char *apiname, OUT xi::String &scheme, OUT xi::String &httpreq, OUT xi::String &content)
 {
-   static const char *FN = "[HSMGR::Next] ";
+   static const char *FN = "[HSMGR::Get] ";
 
    xi::RwLock::ScopedLockRead lock(lock_);
 
@@ -59,6 +59,22 @@ bool Manager::Next(IN const char *apiname,  OUT xi::String &scheme, OUT xi::Stri
       return it->second->Next(scheme, httpreq, content);
 
    WLOG(FN << "not-found api:" << apiname);
+
+   return false;
+}
+
+bool Manager::Get(IN const char *apiname, IN const char *loadkey, OUT xi::String &scheme, OUT xi::String &httpreq, OUT xi::String &content)
+{
+   static const char *FN = "[HSMGR::Get] ";
+
+   xi::RwLock::ScopedLockRead lock(lock_);
+
+   auto it = table_.find(apiname);
+   if (it != table_.end())
+      return it->second->Get(loadkey, scheme, httpreq, content);
+
+   WLOG(FN << "not-found api:" << apiname);
+
    return false;
 }
 

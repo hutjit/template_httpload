@@ -44,6 +44,10 @@ xi::rp::result::e FsmIdle::ProcessLoadCommand(tu::Session &context, ifm::LoadCom
          fsm = tu::fsmtype::API_1;
          break;
 
+      case test::scenario::API2 :
+         fsm = tu::fsmtype::API_2;
+         break;
+
       default :
          WLOG(FN << "unsupported scenario:" << test::scenario::name((test::scenario::e)loadcmd.GetScenario()));
          return xi::rp::result::DO_RELEASE;

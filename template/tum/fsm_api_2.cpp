@@ -1,7 +1,8 @@
 // vim:ts=3:sts=3:sw=3
 
-#include "fsm_api_1.h"
+#include "fsm_api_2.h"
 
+#include "xi/datetime.hxx"
 #include "xi/logger.hxx"
 #include "xi/util.hxx"
 #include "template/hsm/manager.h"
@@ -13,17 +14,17 @@ namespace tu {
 
 #define FN fn << context.Tag() << " "
 
-FsmApi1::FsmApi1()
+FsmApi2::FsmApi2()
 {
 }
 
-FsmApi1::~FsmApi1()
+FsmApi2::~FsmApi2()
 {
 }
 
-xi::rp::result::e FsmApi1::ProcessTimeout(tu::Session &context, ifm::TimerEvent &timeout)
+xi::rp::result::e FsmApi2::ProcessTimeout(tu::Session &context, ifm::TimerEvent &timeout)
 {
-   static const char *fn = "[tu::api1::ProcessTimeout] ";
+   static const char *fn = "[tu::api2::ProcessTimeout] ";
 
    td::timer::e timertype = (td::timer::e) timeout.GetParam1();
    xi::rp::result::e result = xi::rp::result::SUCCESS;
@@ -40,8 +41,8 @@ xi::rp::result::e FsmApi1::ProcessTimeout(tu::Session &context, ifm::TimerEvent 
 
       case td::timer::TRIGGER_SCENARIO :
          { 
-            context.scenario_step_ = api01step::next((api01step::e)context.scenario_step_);
-            DLOG(FN << "step:" << api01step::name((api01step::e)context.scenario_step_));
+            context.scenario_step_ = api02step::next((api02step::e)context.scenario_step_);
+            DLOG(FN << "step:" << api02step::name((api02step::e)context.scenario_step_));
             result = DoNextStep(context);
          } break;
 
@@ -60,13 +61,13 @@ xi::rp::result::e FsmApi1::ProcessTimeout(tu::Session &context, ifm::TimerEvent 
    return result;
 }
 
-xi::rp::result::e FsmApi1::ProcessHttpResponse(tu::Session &context, xi::h1::Response &response)
+xi::rp::result::e FsmApi2::ProcessHttpResponse(tu::Session &context, xi::h1::Response &response)
 {
-   const char *fn = "[tu::api1::ProcessHttpResponse] ";
+   const char *fn = "[tu::api2::ProcessHttpResponse] ";
 
    const char *echo_value = response.GetHeaderValue("Echo");
    int status_code = response.GetStatusCode();
-   DLOG(FN << "step:" << api01step::name((api01step::e)context.scenario_step_) << " status-code:" << status_code << " Echo:" << echo_value);
+   DLOG(FN << "step:" << api02step::name((api02step::e)context.scenario_step_) << " status-code:" << status_code << " Echo:" << echo_value);
 
    context.TimerStop(td::timer::HTTP_RESPONSE_TIMEOUT);
 
@@ -77,32 +78,32 @@ xi::rp::result::e FsmApi1::ProcessHttpResponse(tu::Session &context, xi::h1::Res
    }
 
    // unsigned curstep = context.scenario_step_;
-   // context.scenario_step_ = api01step::next((api01step::e)curstep);
-   // DLOG(FN << "step:" << api01step::name((api01step::e)curstep) << " next:" << api01step::name((api01step::e)context.scenario_step_));
+   // context.scenario_step_ = api02step::next((api02step::e)curstep);
+   // DLOG(FN << "step:" << api02step::name((api02step::e)curstep) << " next:" << api02step::name((api02step::e)context.scenario_step_));
    // return DoNextStep(context);
 
 
    return xi::rp::result::DO_RELEASE;
 }
 
-xi::rp::result::e FsmApi1::DoNextStep(tu::Session &context)
+xi::rp::result::e FsmApi2::DoNextStep(tu::Session &context)
 {
-   const char *fn = "[tu::api1::DoNextStep] ";
+   const char *fn = "[tu::api2::DoNextStep] ";
 
-   DLOG(FN << "step:" << api01step::name((api01step::e)context.scenario_step_));
+   DLOG(FN << "step:" << api02step::name((api02step::e)context.scenario_step_));
 
    xi::rp::result::e rv = xi::rp::result::SUCCESS;
    switch (context.scenario_step_) {
-      case api01step::S1_SEND_REQUEST :
+      case api02step::S1_SEND_REQUEST :
          rv = SendRequest(context);
          break;
 
-      case api01step::COMPLETE :
+      case api02step::COMPLETE :
          rv = xi::rp::result::DO_RELEASE;
          break;
 
       default :
-         WLOG(FN << "unsupport step:" << api01step::name((api01step::e)context.scenario_step_));
+         WLOG(FN << "unsupport step:" << api02step::name((api02step::e)context.scenario_step_));
          rv = xi::rp::result::DO_RELEASE;
          break;
    }
@@ -110,15 +111,20 @@ xi::rp::result::e FsmApi1::DoNextStep(tu::Session &context)
    return rv;
 }
 
-xi::rp::result::e FsmApi1::SendRequest(tu::Session &context)
+xi::rp::result::e FsmApi2::SendRequest(tu::Session &context)
 {
-   const char *fn = "[tu::api1::SendRequest] ";
+   const char *fn = "[tu::api2::SendRequest] ";
+
+   char loadkey[128];
+   xi::Timespec ts;
+   ts.Strftime(loadkey, sizeof(loadkey), "%Y-%m-%d %H:%M:%S", 0);
 
    xi::String scheme;
    xi::String req;
    xi::String content;
 
-   if (false == hs::Manager::Instance()->Get(test::scenario::name(context.test_scenario_), scheme, req, content)) {
+   if (false == hs::Manager::Instance()->Get(test::scenario::name(context.test_scenario_), loadkey, scheme, req, content)) {
+      DLOG(FN << "not-found key:" << loadkey);
       return xi::rp::result::DO_RELEASE;
    }
 
